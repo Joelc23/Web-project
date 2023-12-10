@@ -1,0 +1,100 @@
+<<!DOCTYPE html>
+<html>
+<head>
+  <title>Obstacle Avoidance Game</title>
+  <link rel ="stylesheet" href="prostyle.css">
+  <style>
+    #border {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #8a06f7;
+    }
+    #gameBoard {
+      width: 400px;
+      height: 400px;
+      border: 1px solid #000;
+      position: relative;
+      overflow: hidden;
+    }
+    #player {
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .obstacle {
+      width: 20px;
+      height: 20px;
+      background-color: blue;
+      position: absolute;
+      top: -20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Obstacle Avoidance Game</h1>
+
+  <div id="border"> 
+  <div id="gameBoard">
+  <div id="player"></div>
+</div>
+</div>
+
+<script>
+  const gameArea = document.getElementById('gameBoard');
+  const player = document.getElementById('player');
+  let playerLeft = 50; // Initial player position
+  let isGameOver = false;
+
+  function movePlayer() {
+    if (!isGameOver) {
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowLeft' && playerLeft > 0) {
+          playerLeft -= 10;
+        } else if (event.key === 'ArrowRight' && playerLeft < 370) {
+          playerLeft += 10;
+        }
+        player.style.left = playerLeft + 'px';
+      });
+    }
+  }
+
+  function createObstacle() {
+    const obstacle = document.createElement('div');
+    obstacle.classList.add('obstacle');
+    const obstacleLeft = Math.floor(Math.random() * 350); // Randomize obstacle position
+    obstacle.style.left = obstacleLeft + 'px';
+    gameArea.appendChild(obstacle);
+
+    let obstacleInterval = setInterval(() => {
+      const playerTop = parseInt(window.getComputedStyle(player).getPropertyValue('bottom'));
+      const obstacleTop = parseInt(window.getComputedStyle(obstacle).getPropertyValue('top'));
+      const obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue('left'));
+
+      if (obstacleTop > 380 && obstacleLeft === playerLeft && !isGameOver) {
+        clearInterval(obstacleInterval);
+        isGameOver = true;
+        alert('Game Over! You collided with an obstacle.');
+        location.reload(); // Restart the game
+      }
+
+      obstacle.style.top = obstacleTop + 10 + 'px';
+
+      if (obstacleTop > 400) {
+        obstacle.remove();
+      }
+    }, 100);
+  }
+
+  movePlayer();
+  setInterval(createObstacle, 1500); // Create obstacles at intervals
+</script>
+
+</body>
+</html>

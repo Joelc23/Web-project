@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Environment friendly Transportations </title>
+  <link rel ="stylesheet" href="prostyle.css">
+</head>
+<body>
+
+<h1>EFT User Information</h1>
+
+<form id="userInfoForm" onsubmit="return false;">
+  <label for="name">Name:</label>
+  <input type="text" id="name" required><br><br>
+  
+  <label for="surname">Surname:</label>
+  <input type="text" id="surname" required><br><br>
+
+  <label for="dob">Date of Birth:</label>
+  <input type="date" id="dob" required><br><br>
+
+  <label for="transport">Mode of Transport:</label>
+  <select id="transport">
+
+    <option value="Car">Car</option>
+    <option value="Bus">Bus</option>
+    <option value="Bicycle">Bicycle</option>
+    <option value="Walking">Walking</option>
+  </select><br><br>
+
+  <label for="amount">Amount:</label>
+  <input type="number" id="amount" required><br><br>
+
+  <button onclick="submitForm()">Submit</button>
+</form>
+
+<div id="displayInfo"></div>
+
+<script>
+  function submitForm() {
+    const name = document.getElementById('name').value;
+    const surname = document.getElementById('surname').value;
+    const dob = document.getElementById('dob').value;
+    const transport = document.getElementById('transport').value;
+    const amount = document.getElementById('amount').value;
+
+    const displayInfo = document.getElementById('displayInfo');
+    displayInfo.innerHTML = `
+      <h2>Entered Information:</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Surname:</strong> ${surname}</p>
+      <p><strong>Date of Birth:</strong> ${dob}</p>
+      <p><strong>Mode of Transport:</strong> ${transport}</p>
+      <p><strong>Amount:</strong> ${amount}</p>
+    `;
+  }
+</script>
+
+</body>
+</html>
